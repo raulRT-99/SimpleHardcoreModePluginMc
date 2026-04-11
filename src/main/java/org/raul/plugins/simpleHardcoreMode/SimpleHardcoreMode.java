@@ -12,5 +12,6 @@ public final class SimpleHardcoreMode extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+
     }
 }
