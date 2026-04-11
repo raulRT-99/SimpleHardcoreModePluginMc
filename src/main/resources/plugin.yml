@@ -1,0 +1,5 @@
+name: SimpleHardcoreMode
+version: '${version}'
+
+main: org.raul.plugins.simpleHardcoreMode.SimpleHardcoreMode
+api-version: '1.20'
