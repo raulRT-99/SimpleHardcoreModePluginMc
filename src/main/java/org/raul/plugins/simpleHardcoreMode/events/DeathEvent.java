@@ -1,5 +1,6 @@
 package org.raul.plugins.simpleHardcoreMode.events;
 
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -8,41 +9,67 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.raul.plugins.simpleHardcoreMode.General.COLORS;
-
-import java.util.Date;
+import org.bukkit.profile.PlayerProfile;
+import org.raul.plugins.simpleHardcoreMode.General.Config;
+import org.raul.plugins.simpleHardcoreMode.General.Managers.BanManager;
+import org.raul.plugins.simpleHardcoreMode.General.Managers.GeneralManager;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DeathEvent implements Listener {
 
     private final JavaPlugin plugin;
     private final NamespacedKey livesKey;
+    private final Config config;
 
-    public DeathEvent(JavaPlugin plugin) {
+    public DeathEvent(JavaPlugin plugin, Config config) {
         this.plugin = plugin;
         this.livesKey = new NamespacedKey(plugin, "lives");
+        this.config = config;
     }
 
     @EventHandler
     public void onDeathPlayer(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        int newLives = discountLifes(player);
-        if (newLives < 0) return;
-        if (newLives == 0) {
-            player.ban("You get out of lifes!!", (Date) null, null, true);
-            Bukkit.broadcastMessage(COLORS.GREEN + "Player: " + COLORS.RED + player.getName() + " get out of Lives!!");
+        Map<String, String> args = new HashMap<>();
+        args.put("%player%", player.getName());
+        args.put("%defaultLives%", String.valueOf(config.getDefault_lives()));
+        int newLives = discountLives(player);
+        if (newLives <= 0) {
+            args.put("%lives%", "0");
+            args.put("%banTime%",(float) config.getBan_total_time() / 3600 + "hrs.");
+
+            String kickMsg = GeneralManager.replaceArgs(config.getKick_message(), args);
+            player.kickPlayer(kickMsg);
+            String banMsg = GeneralManager.replaceArgs(config.getBan_message(), args);
+
+            BanManager bm = new BanManager();
+            bm.banPlayer(player, banMsg, banTime());
+
+            String broadcastMsg = GeneralManager.replaceArgs(config.getBroadcast_message(), args);
+            Bukkit.broadcastMessage(broadcastMsg);
         } else {
-            player.sendMessage(COLORS.GREEN + "You lost a lives, your new life's count is: " + COLORS.YELLOW + newLives);
+            args.put("%lives%", player.getPersistentDataContainer().get(livesKey, PersistentDataType.INTEGER).toString());
+            String lostLifeMsg = GeneralManager.replaceArgs(config.getLost_life_message(), args);
+            player.sendMessage(lostLifeMsg);
         }
     }
 
-    private int discountLifes(Player player) {
+
+    private Duration banTime() {
+        if (config.isPermaban()) return null;
+        return Duration.ofSeconds(config.getBan_total_time());
+    }
+
+    private int discountLives(Player player) {
         int newLives;
         try {
-            int currentLifes = player.getPersistentDataContainer().get(livesKey, PersistentDataType.INTEGER);
-            if (currentLifes == 1) {
+            int currentLives = player.getPersistentDataContainer().get(livesKey, PersistentDataType.INTEGER);
+            if (currentLives == 1) {
                 newLives = 0;
             } else {
-                newLives = currentLifes - 1;
+                newLives = currentLives - 1;
             }
             player.getPersistentDataContainer().set(livesKey, PersistentDataType.INTEGER, newLives);
         } catch (NullPointerException e) {

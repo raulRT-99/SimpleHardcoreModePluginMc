@@ -46,6 +46,9 @@ broadcast-message: "§aThe player §e%player%§a has lost all of his lives"
 #This message appears each time a player joins the server (only the player can see this)
 enter-message: "§aHello again §e%player%§a, you have §e%lives%§a left"
 
+#Message to be shown to the player that loose a life (if it has more than 1 life)
+lost-life-message: "§aYou lost a life, your new life's count is: §e%lives%"
+
 
 #**************************************************************************************************
 #Ban config
