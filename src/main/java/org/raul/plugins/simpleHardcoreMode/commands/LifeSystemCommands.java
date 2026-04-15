@@ -9,6 +9,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.raul.plugins.simpleHardcoreMode.Config;
+import org.raul.plugins.simpleHardcoreMode.messages.LanguageMsg;
 
 
 import java.util.ArrayList;
@@ -20,10 +22,14 @@ public class LifeSystemCommands implements CommandExecutor, TabCompleter {
     private final JavaPlugin plugin;
     private final NamespacedKey livesKey;
     private final int defaultLives = 3;
+    private final LanguageMsg consoleMessage;
+    private final Config config;
 
-    public LifeSystemCommands(JavaPlugin plugin) {
+    public LifeSystemCommands(JavaPlugin plugin, LanguageMsg consoleMessage, Config config) {
         this.plugin = plugin;
         this.livesKey = new NamespacedKey(plugin, "lives");
+        this.consoleMessage = consoleMessage;
+        this.config = config;
     }
 
 
