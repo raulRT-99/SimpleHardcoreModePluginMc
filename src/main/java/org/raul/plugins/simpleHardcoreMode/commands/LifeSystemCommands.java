@@ -9,7 +9,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.raul.plugins.simpleHardcoreMode.Config;
+import org.raul.plugins.simpleHardcoreMode.General.Config;
 import org.raul.plugins.simpleHardcoreMode.messages.LanguageMsg;
 
 
@@ -36,7 +36,7 @@ public class LifeSystemCommands implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(COLORS.RED + "Add some arguments to the command: " + COLORS.YELLOW + "\'lives [get | set | add | defaultlives] \'");
+            sender.sendMessage(consoleMessage.noArgumentsSent());
             return true;
         }
 
@@ -50,11 +50,11 @@ public class LifeSystemCommands implements CommandExecutor, TabCompleter {
             case "add":
                 handleAdd(sender, args);
                 break;
-            case "defaultlives":
+            case "defaultLives":
                 handleDefault(sender, args);
                 break;
             default:
-                sender.sendMessage(COLORS.RED + "Wrong command arguments");
+                sender.sendMessage(consoleMessage.wrongArguments());
                 return false;
         }
 
@@ -89,7 +89,7 @@ public class LifeSystemCommands implements CommandExecutor, TabCompleter {
         Integer lives = target.getPersistentDataContainer().get(livesKey, PersistentDataType.INTEGER);
         if (lives == null) lives = defaultLives;
 
-        sender.sendMessage(COLORS.GREEN + target.getName() + " tiene " + COLORS.YELLOW +   lives  + COLORS.GREEN + " vida(s).");
+        sender.sendMessage(consoleMessage.playerLives(target.getName(), lives));
     }
 
     private void handleSet(CommandSender sender, String[] args) {
@@ -98,7 +98,7 @@ public class LifeSystemCommands implements CommandExecutor, TabCompleter {
 
         if (!parseAndSetLives(sender, args, target, "set")) return;
 
-        sender.sendMessage(COLORS.GREEN + "Vidas de " + target.getName() + COLORS.GREEN + " set a " + getLastParsedLives() + ".");
+        sender.sendMessage(consoleMessage.setPlayerLives(target.getName(), Integer.parseInt(args[2])));
     }
 
     private void handleAdd(CommandSender sender, String[] args) {
@@ -107,13 +107,13 @@ public class LifeSystemCommands implements CommandExecutor, TabCompleter {
 
         if (!parseAndSetLives(sender, args, target, "add")) return;
 
-        sender.sendMessage(COLORS.GREEN + "Se agregaron " + getLastParsedLives() + " vida(s) a " + target.getName() + ".");
+        sender.sendMessage(consoleMessage.addPlayerLives(target.getName(), getLastParsedLives()));
     }
 
     private void handleDefault(CommandSender sender, String[] args) {
         Player target = getTarget(sender, args);
         if (target == null) {
-            sender.sendMessage("Please select player");
+            sender.sendMessage(consoleMessage.noPlayerSelected());
             return;
         }
 
@@ -121,25 +121,26 @@ public class LifeSystemCommands implements CommandExecutor, TabCompleter {
         if (lives != null) {
             target.getPersistentDataContainer().remove(livesKey);
         }
-        sender.sendMessage(COLORS.GREEN + "Vidas de " + target.getName() + " reseteadas a por defecto (" + defaultLives + ").");
+        sender.sendMessage(consoleMessage.defaultLives(target.getName()));
     }
 
     private int lastParsedLives = 0;
+
     private int getLastParsedLives() {
         return lastParsedLives;
     }
 
     private boolean parseAndSetLives(CommandSender sender, String[] args, Player target, String action) {
         if (args.length < 3) {
-            sender.sendMessage(COLORS.RED + "Usa: /lives " + action + " <jugador> <cantidad>");
+            sender.sendMessage(consoleMessage.commandHelp(action));
             return false;
         }
+        int newLives = 0;
         try {
             int amount = Integer.parseInt(args[2]);
             Integer current = target.getPersistentDataContainer().get(livesKey, PersistentDataType.INTEGER);
             if (current == null) current = 0;
 
-            int newLives;
             if ("add".equals(action)) {
                 newLives = current + amount;
             } else {
@@ -151,7 +152,7 @@ public class LifeSystemCommands implements CommandExecutor, TabCompleter {
             lastParsedLives = newLives;
             return true;
         } catch (NumberFormatException e) {
-            sender.sendMessage(COLORS.RED + args[2] + "' no es un número válido.");
+            sender.sendMessage(consoleMessage.invalidNumber(args[2]));
             return false;
         }
     }
@@ -161,12 +162,12 @@ public class LifeSystemCommands implements CommandExecutor, TabCompleter {
         if (args.length >= 2) {
             target = Bukkit.getPlayer(args[1]);
             if (target == null) {
-                sender.sendMessage(COLORS.RED+"Jugador '" + args[1] + "' no encontrado.");
+                sender.sendMessage(consoleMessage.playerNotFound(args[1]));
                 return null;
             }
         } else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(COLORS.RED+"Especifica un jugador.");
+                sender.sendMessage(consoleMessage.noPlayerSelected());
                 return null;
             }
             target = (Player) sender;

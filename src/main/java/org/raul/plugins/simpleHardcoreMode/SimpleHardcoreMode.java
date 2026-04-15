@@ -1,6 +1,7 @@
 package org.raul.plugins.simpleHardcoreMode;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.raul.plugins.simpleHardcoreMode.General.Config;
 import org.raul.plugins.simpleHardcoreMode.commands.HelloCommand;
 import org.raul.plugins.simpleHardcoreMode.commands.LifeSystemCommands;
 import org.raul.plugins.simpleHardcoreMode.events.DeathEvent;
@@ -24,12 +25,13 @@ public final class SimpleHardcoreMode extends JavaPlugin {
         }
 
         LanguageMsg consoleMessage = null;
-        int defaultLives = getConfig().getInt("default-lives");
         if (getConfig().getString("lang").equals("es")) {
-            consoleMessage = new SpanishMsg(defaultLives);
+            consoleMessage = new SpanishMsg(config.getDefault_lives());
         } else {
-            consoleMessage = new EnglishMsg(defaultLives);
+            consoleMessage = new EnglishMsg(config.getDefault_lives());
         }
+
+
 
         getCommand("hello").setExecutor(new HelloCommand());
         LifeSystemCommands lifesCmd = new LifeSystemCommands(this, consoleMessage, config);

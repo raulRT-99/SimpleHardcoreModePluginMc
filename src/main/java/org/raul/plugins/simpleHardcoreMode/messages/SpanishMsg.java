@@ -1,7 +1,7 @@
 package org.raul.plugins.simpleHardcoreMode.messages;
 
 
-import org.raul.plugins.simpleHardcoreMode.commands.COLORS;
+import org.raul.plugins.simpleHardcoreMode.General.COLORS;
 
 public class SpanishMsg extends LanguageMsg {
 
@@ -50,7 +50,7 @@ public class SpanishMsg extends LanguageMsg {
     }
 
     @Override
-    public String invalidNumber(int number) {
+    public String invalidNumber(String number) {
         return COLORS.RED + "'" + number + "' no es un número válido.";
     }
 

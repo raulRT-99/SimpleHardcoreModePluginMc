@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.raul.plugins.simpleHardcoreMode.commands.COLORS;
+import org.raul.plugins.simpleHardcoreMode.General.COLORS;
 
 import java.util.Date;
 

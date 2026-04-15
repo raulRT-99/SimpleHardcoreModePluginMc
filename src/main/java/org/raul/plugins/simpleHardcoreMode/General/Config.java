@@ -1,4 +1,4 @@
-package org.raul.plugins.simpleHardcoreMode;
+package org.raul.plugins.simpleHardcoreMode.General;
 
 public class Config {
 

@@ -15,7 +15,7 @@ public abstract class LanguageMsg {
     public abstract String noPlayerSelected();
     public abstract String defaultLives(String player);
     public abstract String commandHelp(String action);
-    public abstract String invalidNumber(int number);
+    public abstract String invalidNumber(String number);
     public abstract String playerNotFound(String player);
 
 }

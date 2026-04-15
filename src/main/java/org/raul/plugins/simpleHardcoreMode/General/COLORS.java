@@ -1,4 +1,4 @@
-package org.raul.plugins.simpleHardcoreMode.commands;
+package org.raul.plugins.simpleHardcoreMode.General;
 
 import org.bukkit.ChatColor;
 
