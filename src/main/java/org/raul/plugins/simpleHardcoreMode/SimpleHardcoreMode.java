@@ -18,7 +18,7 @@ public final class SimpleHardcoreMode extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         this.getLogger().info("SHM: Thanks for using my plugin");
-        this.getLogger().info("SHM: Made by Latrell (raulRT99)");
+        this.getLogger().info("SHM: Made by raulRT99 (Raul Reyes)");
 
         try {
             saveDefaultConfig();
