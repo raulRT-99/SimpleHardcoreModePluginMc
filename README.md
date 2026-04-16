@@ -20,7 +20,7 @@ Config.yml
 #es - Español  
     `lang: "eng"`
 
-**************************************************************************************************
+#--------------------------------------------------------------------------------------------------------  
 #Messages to be shown on each event  
 #To show the player name use %player%  
 #To show the default lives use %defaultLives%  
