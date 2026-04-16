@@ -1,6 +1,7 @@
 
 # Simple Hardcore Mode
-This is my very first plugin for Minecraft, I hope you enjoy it!
+This is my very first plugin for Minecraft, I hope you enjoy it!  
+I inspired in another discontinued plugin named <a> [Hardcore Beta](https://www.spigotmc.org/resources/hardcore.118580/) </a> from <a>[Dianelito](https://github.com/Dianelito)</a>
 ------------------------------------------------------------------------------
 With this plugin you can:
 
