@@ -59,4 +59,9 @@ public class SpanishMsg extends LanguageMsg {
         return COLORS.RED + "Jugador: '" + player + "' no encontrado.";
     }
 
+    @Override
+    public String notEnoughPermissions() {
+        return "No tienes permisos para utilizar este comando";
+    }
+
 }

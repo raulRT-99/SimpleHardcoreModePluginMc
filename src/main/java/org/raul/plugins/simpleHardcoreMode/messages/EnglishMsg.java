@@ -58,4 +58,9 @@ public class EnglishMsg extends LanguageMsg {
         return COLORS.RED + "Player '" + player + "' not found.";
     }
 
+    @Override
+    public String notEnoughPermissions() {
+        return "You don't have permission to use this command";
+    }
+
 }

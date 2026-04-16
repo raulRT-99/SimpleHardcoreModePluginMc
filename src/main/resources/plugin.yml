@@ -2,19 +2,18 @@ name: SimpleHardcoreMode
 version: '${version}'
 
 main: org.raul.plugins.simpleHardcoreMode.SimpleHardcoreMode
-api-version: '1.20'
-author: "Raul Reyes"
+api-version: '1.16'
+author: "Latrell (Raul Reyes)"
 
 commands:
-  hello:
-    permission: SimpleHardcoreMode.permission.hello
-    permission-message: "No tienes permisos para usar este comando"
-    description: "Despliega un mensaje de saludo"
-    usage: "Uso del comando /hello o /hola"
-    aliases:
-      - hola
   lives:
     permission: SimpleHardcoreMode.permission.lives
-    permission-message: "No tienes permisos para usar este comando"
-    description: "Administra las vidas de los jugadores"
-    usage: "Uso del comando /lives [get | set | add | defaultLives] [player] [amount]"
+    permission-message: "You don not have enough privileges to use this command"
+    description: "Manage player's lives"
+    usage: "How to use it: /lives [get | set | add | defaultLives] [player] [amount]"
+
+permissions:
+  SimpleHardcoreMode.permission.lives:
+    default: true
+  SimpleHardcoreMode.permission.lives.admin:
+    default: op

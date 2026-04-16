@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.raul.plugins.simpleHardcoreMode.General.Config;
-import org.raul.plugins.simpleHardcoreMode.General.Managers.GeneralManager;
+import org.raul.plugins.simpleHardcoreMode.General.FormatMessage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +41,7 @@ public class JoinServerEvent implements Listener {
             newPlayer.getPersistentDataContainer().set(this.lives, PersistentDataType.INTEGER, config.getDefault_lives());
             args.put("%lives%", String.valueOf(config.getDefault_lives()));
 
-            String welcomeMsg = GeneralManager.replaceArgs(config.getWelcome_message(), args);
+            String welcomeMsg = FormatMessage.replaceArgs(config.getWelcome_message(), args);
             newPlayer.sendMessage(welcomeMsg);
             newPlayer.saveData();
         } else {
@@ -49,7 +49,7 @@ public class JoinServerEvent implements Listener {
             args.put("%lives%", String.valueOf(currentLives));
         }
 
-        String enterMsg = GeneralManager.replaceArgs(config.getEnter_message(), args);
+        String enterMsg = FormatMessage.replaceArgs(config.getEnter_message(), args);
         newPlayer.sendMessage(enterMsg);
 
     }

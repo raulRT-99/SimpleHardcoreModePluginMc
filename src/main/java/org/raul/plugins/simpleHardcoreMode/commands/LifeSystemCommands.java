@@ -40,6 +40,12 @@ public class LifeSystemCommands implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        boolean permissions = sender.hasPermission("SimpleHardcoreMode.permission.lives.admin");
+        if(!permissions && !args[0].equalsIgnoreCase("get")){
+            sender.sendMessage(consoleMessage.notEnoughPermissions());
+            return true;
+        }
+
         switch (args[0]) {
             case "get":
                 handleGet(sender, args);

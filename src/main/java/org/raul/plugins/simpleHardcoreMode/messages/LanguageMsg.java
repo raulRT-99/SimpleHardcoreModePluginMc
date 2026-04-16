@@ -17,5 +17,6 @@ public abstract class LanguageMsg {
     public abstract String commandHelp(String action);
     public abstract String invalidNumber(String number);
     public abstract String playerNotFound(String player);
+    public abstract String notEnoughPermissions();
 
 }

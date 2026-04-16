@@ -11,8 +11,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.profile.PlayerProfile;
 import org.raul.plugins.simpleHardcoreMode.General.Config;
-import org.raul.plugins.simpleHardcoreMode.General.Managers.BanManager;
-import org.raul.plugins.simpleHardcoreMode.General.Managers.GeneralManager;
+import org.raul.plugins.simpleHardcoreMode.General.FormatMessage;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,18 +39,18 @@ public class DeathEvent implements Listener {
             args.put("%lives%", "0");
             args.put("%banTime%",(float) config.getBan_total_time() / 3600 + "hrs.");
 
-            String kickMsg = GeneralManager.replaceArgs(config.getKick_message(), args);
+            String kickMsg = FormatMessage.replaceArgs(config.getKick_message(), args);
             player.kickPlayer(kickMsg);
-            String banMsg = GeneralManager.replaceArgs(config.getBan_message(), args);
+            String banMsg = FormatMessage.replaceArgs(config.getBan_message(), args);
 
-            BanManager bm = new BanManager();
-            bm.banPlayer(player, banMsg, banTime());
+            BanList<PlayerProfile> bans = Bukkit.getBanList(BanList.Type.PROFILE);
+            bans.addBan(player.getPlayerProfile(), banMsg, banTime(), null);
 
-            String broadcastMsg = GeneralManager.replaceArgs(config.getBroadcast_message(), args);
+            String broadcastMsg = FormatMessage.replaceArgs(config.getBroadcast_message(), args);
             Bukkit.broadcastMessage(broadcastMsg);
         } else {
             args.put("%lives%", player.getPersistentDataContainer().get(livesKey, PersistentDataType.INTEGER).toString());
-            String lostLifeMsg = GeneralManager.replaceArgs(config.getLost_life_message(), args);
+            String lostLifeMsg = FormatMessage.replaceArgs(config.getLost_life_message(), args);
             player.sendMessage(lostLifeMsg);
         }
     }
@@ -66,7 +65,7 @@ public class DeathEvent implements Listener {
         int newLives;
         try {
             int currentLives = player.getPersistentDataContainer().get(livesKey, PersistentDataType.INTEGER);
-            if (currentLives == 1) {
+            if (currentLives <= 1) {
                 newLives = 0;
             } else {
                 newLives = currentLives - 1;

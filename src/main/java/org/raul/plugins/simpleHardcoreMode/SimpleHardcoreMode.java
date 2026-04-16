@@ -20,8 +20,6 @@ public final class SimpleHardcoreMode extends JavaPlugin {
         this.getLogger().info("SHM: Thanks for using my plugin");
         this.getLogger().info("SHM: Made by Latrell (raulRT99)");
 
-        String serverVersion = Bukkit.getServer().getVersion();
-
         try {
             saveDefaultConfig();
             loadConfFile();
@@ -52,7 +50,7 @@ public final class SimpleHardcoreMode extends JavaPlugin {
                 getConfig().getString("kick-message", "§2You lost all of your lives"),
                 getConfig().getString("ban-message", "§4You can not enter the server because you lost all of your lives"),
                 getConfig().getString("broadcast-message", "§aThe player §e%player%§a has lost all of his lives"),
-                getConfig().getString("enter-message", "§aHello again §e%player%§a, you have §e%lives%§a left"),
+                getConfig().getString("enter-message", "§aHello again §e%player%§a, you have §e%lives%§a lives left"),
                 getConfig().getString("lost-life-message", "§aYou lost a life, your new life's count is: §e%lives%"),
                 getConfig().getInt("default-lives", 3),
                 getConfig().getBoolean("permaban", true),
@@ -63,13 +61,11 @@ public final class SimpleHardcoreMode extends JavaPlugin {
     }
 
     private LanguageMsg selectLanguage(String lang) {
-//        return switch (lang) {
-//            case "es" -> new SpanishMsg(config.getDefault_lives());
-//            case "eng" -> new EnglishMsg(config.getDefault_lives());
-//            default -> new EnglishMsg(config.getDefault_lives());
-//        };
-        if ("es".equals(lang)) return new SpanishMsg(config.getDefault_lives());
-        return new EnglishMsg(config.getDefault_lives());
+        return switch (lang) {
+            case "es" -> new SpanishMsg(config.getDefault_lives());
+            case "eng" -> new EnglishMsg(config.getDefault_lives());
+            default -> new EnglishMsg(config.getDefault_lives());
+        };
     }
 
 }
