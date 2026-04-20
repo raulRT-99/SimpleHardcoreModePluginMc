@@ -2,7 +2,7 @@ name: SimpleHardcoreMode
 version: '${version}'
 
 main: org.raul.plugins.simpleHardcoreMode.SimpleHardcoreMode
-api-version: '1.16'
+api-version: '1.20'
 author: "raulRT99 (Raul Reyes)"
 
 commands:

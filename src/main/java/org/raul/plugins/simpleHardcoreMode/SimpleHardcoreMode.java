@@ -1,6 +1,5 @@
 package org.raul.plugins.simpleHardcoreMode;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.raul.plugins.simpleHardcoreMode.General.Config;
 import org.raul.plugins.simpleHardcoreMode.commands.LifeSystemCommands;
