@@ -64,4 +64,5 @@ public class SpanishMsg extends LanguageMsg {
         return "No tienes permisos para utilizar este comando";
     }
 
+
 }

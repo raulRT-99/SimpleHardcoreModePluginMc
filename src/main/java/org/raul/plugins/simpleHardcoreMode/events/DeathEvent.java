@@ -3,6 +3,7 @@ package org.raul.plugins.simpleHardcoreMode.events;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.profile.PlayerProfile;
 import org.raul.plugins.simpleHardcoreMode.General.Config;
 import org.raul.plugins.simpleHardcoreMode.General.FormatMessage;
+import org.raul.plugins.simpleHardcoreMode.messages.LanguageMsg;
+
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +24,13 @@ public class DeathEvent implements Listener {
     private final JavaPlugin plugin;
     private final NamespacedKey livesKey;
     private final Config config;
+    private final LanguageMsg messages;
 
-    public DeathEvent(JavaPlugin plugin, Config config) {
+    public DeathEvent(JavaPlugin plugin, Config config, LanguageMsg messages) {
         this.plugin = plugin;
         this.livesKey = new NamespacedKey(plugin, "lives");
         this.config = config;
+        this.messages = messages;
     }
 
     @EventHandler
@@ -37,10 +42,16 @@ public class DeathEvent implements Listener {
         int newLives = discountLives(player);
         if (newLives <= 0) {
             args.put("%lives%", "0");
-            args.put("%banTime%",(float) config.getBan_total_time() / 3600 + "hrs.");
+            args.put("%banTime%", (float) config.getBan_total_time() / 3600 + "hrs.");
 
             String kickMsg = FormatMessage.replaceArgs(config.getKick_message(), args);
-            player.kickPlayer(kickMsg);
+            long totalXP = player.getPersistentDataContainer().getOrDefault(GainXPEvent.xp, PersistentDataType.LONG, 0L);
+            kickMsg += "\n\n" + messages.hoursAndXPAfterDeath(totalXP, player.getStatistic(Statistic.PLAY_ONE_MINUTE), config.getLang());
+            String finalKickMsg = kickMsg;
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                player.kickPlayer(finalKickMsg);
+            }, 10L);
+
             String banMsg = FormatMessage.replaceArgs(config.getBan_message(), args);
 
             BanList<PlayerProfile> bans = Bukkit.getBanList(BanList.Type.PROFILE);

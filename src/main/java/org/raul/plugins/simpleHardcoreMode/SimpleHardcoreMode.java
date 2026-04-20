@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.raul.plugins.simpleHardcoreMode.General.Config;
 import org.raul.plugins.simpleHardcoreMode.commands.LifeSystemCommands;
 import org.raul.plugins.simpleHardcoreMode.events.DeathEvent;
+import org.raul.plugins.simpleHardcoreMode.events.GainXPEvent;
 import org.raul.plugins.simpleHardcoreMode.events.JoinServerEvent;
 import org.raul.plugins.simpleHardcoreMode.messages.EnglishMsg;
 import org.raul.plugins.simpleHardcoreMode.messages.LanguageMsg;
@@ -33,8 +34,9 @@ public final class SimpleHardcoreMode extends JavaPlugin {
         getCommand("lives").setExecutor(lifesCmd);
         getCommand("lives").setTabCompleter(lifesCmd);
 
-        getServer().getPluginManager().registerEvents(new DeathEvent(this, config), this);
+        getServer().getPluginManager().registerEvents(new DeathEvent(this, config, consoleMessage), this);
         getServer().getPluginManager().registerEvents(new JoinServerEvent(this, config), this);
+        getServer().getPluginManager().registerEvents(new GainXPEvent(this), this);
     }
 
     @Override

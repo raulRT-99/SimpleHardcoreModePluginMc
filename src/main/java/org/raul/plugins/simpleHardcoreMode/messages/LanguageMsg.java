@@ -1,5 +1,7 @@
 package org.raul.plugins.simpleHardcoreMode.messages;
 
+import org.raul.plugins.simpleHardcoreMode.General.COLORS;
+
 public abstract class LanguageMsg {
     protected final int defaultLives;
 
@@ -18,5 +20,16 @@ public abstract class LanguageMsg {
     public abstract String invalidNumber(String number);
     public abstract String playerNotFound(String player);
     public abstract String notEnoughPermissions();
+
+    public String hoursAndXPAfterDeath(long XP, long totalTimeTicks, String lang) {
+        String finalMsg = COLORS.WHITE + "Total XP: " + COLORS.GREEN + XP + "\n";
+        double hours = totalTimeTicks/72000.0;
+        if (lang.equalsIgnoreCase("es")) {
+            finalMsg += COLORS.WHITE + "Tiempo total: " + COLORS.GREEN + String.format("%.2f", hours) + COLORS.WHITE + " horas.";
+        } else {
+            finalMsg += COLORS.WHITE + "Total time: " + COLORS.GREEN + String.format("%.2f", hours) + COLORS.WHITE + " hours.";
+        }
+        return finalMsg;
+    }
 
 }

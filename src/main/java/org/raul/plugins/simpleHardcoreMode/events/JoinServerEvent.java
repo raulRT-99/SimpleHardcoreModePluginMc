@@ -1,6 +1,7 @@
 package org.raul.plugins.simpleHardcoreMode.events;
 
 import org.bukkit.NamespacedKey;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +31,8 @@ public class JoinServerEvent implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player newPlayer = event.getPlayer();
         boolean showFirstJoinMsg;
+
+        newPlayer.getStatistic(Statistic.TOTAL_WORLD_TIME);
 
         Map<String, String> args = new HashMap<>();
         args.put("%player%", newPlayer.getName());
