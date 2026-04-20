@@ -11,6 +11,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.profile.PlayerProfile;
+import org.raul.plugins.simpleHardcoreMode.General.COLORS;
 import org.raul.plugins.simpleHardcoreMode.General.Config;
 import org.raul.plugins.simpleHardcoreMode.General.FormatMessage;
 import org.raul.plugins.simpleHardcoreMode.messages.LanguageMsg;
@@ -47,10 +48,11 @@ public class DeathEvent implements Listener {
             String kickMsg = FormatMessage.replaceArgs(config.getKick_message(), args);
             long totalXP = player.getPersistentDataContainer().getOrDefault(GainXPEvent.xp, PersistentDataType.LONG, 0L);
             kickMsg += "\n\n" + messages.hoursAndXPAfterDeath(totalXP, player.getStatistic(Statistic.PLAY_ONE_MINUTE), config.getLang());
+            kickMsg += "\n\n" + COLORS.RED + event.getDeathMessage();
             String finalKickMsg = kickMsg;
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 player.kickPlayer(finalKickMsg);
-            }, 10L);
+            }, 12L);
 
             String banMsg = FormatMessage.replaceArgs(config.getBan_message(), args);
 
