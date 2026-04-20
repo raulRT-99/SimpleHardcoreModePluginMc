@@ -15,7 +15,7 @@ With this plugin you can:
 
 Config.yml
 
-#Language of commands message (only the player who execute commands can see this)   
+#Language of commands message and final resumne 
 #eng - English  
 #es - Español  
     `lang: "eng"`
